@@ -17,6 +17,7 @@ We implement a tensorflow model for ["Residual Dense Network for Image Super-Res
 - main.py : Execute train.py and pass the default value.
 - vdsr.py : RDN model definition.
 - train.py : Train the RDN model and represent the test set performance.
+- demo.py : Test the RDN model and show result images and psnr.
 - util.py : Utility functions for this project.
 - log.txt : The log of training process.
 - model : The save files of the trained RDN.
