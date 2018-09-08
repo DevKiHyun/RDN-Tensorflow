@@ -46,7 +46,7 @@ python demo.py --image_index 13 --scale 4 --coordinate [100,100] --interval 50
 
 ##### Results on Urban 100/2 (visual)
 
-![Alt Text](https://github.com/DevKiHyun/RDN-Tensorflow/blob/master/result/Urban100-1.gif)
+![Alt Text](https://github.com/DevKiHyun/RDN-Tensorflow/blob/master/RDN/result/Urban100-1.gif)
 
 ## Reference
 
