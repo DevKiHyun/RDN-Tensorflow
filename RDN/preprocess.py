@@ -3,13 +3,13 @@ import numpy as np
 import scipy.io
 import os
 
-train_input_2x_path = './train_DIV2K_input_2x/{}'
-train_input_3x_path = './train_DIV2K_input_3x/{}'
-train_input_4x_path = './train_DIV2K_input_4x/{}'
-train_label_path = './train_DIV2K_label/{}'
+train_input_2x_path = './data/train_DIV2K_input_2x/{}'
+train_input_3x_path = './data/train_DIV2K_input_3x/{}'
+train_input_4x_path = './data/train_DIV2K_input_4x/{}'
+train_label_path = './data/train_DIV2K_label/{}'
 
 train_path = [train_input_2x_path, train_input_3x_path, train_input_4x_path, train_label_path]
-test_set = ['Set5']
+test_set = ['data/Set5']
 test_path = []
 for elem in test_set:
     y_ch_path = './' + elem + '/y_ch/{}'

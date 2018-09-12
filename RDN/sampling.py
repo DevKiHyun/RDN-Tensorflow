@@ -10,8 +10,8 @@ if __name__ == '__main__':
     args, unknown = parser.parse_known_args()
 
     n_extract = args.n_extract
-    path = './DIV2K_HR/*.png'
-    save_path = './DIV2K_train_HR'
+    path = './data/DIV2K_HR/*.png'
+    save_path = './data/DIV2K_train_HR'
     if not os.path.exists(save_path): os.makedirs(save_path)
 
     path_list = glob.glob(path)
