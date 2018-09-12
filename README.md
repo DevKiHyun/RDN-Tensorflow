@@ -23,6 +23,28 @@ We implement a tensorflow model for ["Residual Dense Network for Image Super-Res
 - model : The save files of the trained RDN.
 
 ## How to use
+### Pre-processing
+
+#### you should put images of the DIV2K dataset into the 'DIV2K_train_HR' directory in data directory.
+##### Step 1
+```shell
+# Sampling N images in 'DIV2K_train_HR' directory
+python sampling.py
+
+# default args: n_extract = 30
+# you can change args : n_extract = 20
+python sampling.py --n_extract 20
+```
+##### Step 2
+##### you should execute aug_train.m and aug_test.m in 'data' directory
+##### Recommend 'Octave' platform to execute matlab code '.m' 
+
+##### Step 3
+```shell
+# finally, you should execute preprocess.py
+python preprocess.py
+```
+
 ### Training
 ```shell
 python main.py
