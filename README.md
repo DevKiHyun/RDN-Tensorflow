@@ -29,20 +29,23 @@ We implement a tensorflow model for ["Residual Dense Network for Image Super-Res
 #### Input images(Low resolution) should be 48x48 size, so sub-images(High resolution) should be a specific multiple of the input image size. 
 #### ex) Input images: 48x48 / [2x Scale] Sub_images : 96x96 [4x Scale] Sub_images : 196x196
 
-##### Step 1
+#### Step 1
+##### [Recommend] 2x scale : 25 images sampling, 3x scale : 35 images sampling, 4x scale: 50 images sampling 
 ```shell
 # Sampling N images in 'DIV2K_train_HR' directory
 python sampling.py
 
-# default args: n_extract = 30
-# you can change args : n_extract = 20
-python sampling.py --n_extract 20
+# default args: n_extract = 25 for 2x scale
+# If 3x scale : n_extract = 35
+python sampling.py --n_extract 35
+# If 4x scale : n_extract = 50
+python sampling.py --n-extract 50
 ```
-##### Step 2
-##### you should execute aug_train.m and aug_test.m in 'data' directory
+#### Step 2
+##### you should execute aug_train_'N'x.m and aug_test.m in 'data' directory. If you are training model for 2x scale, you must execute aug_train_2x.m
 ##### Recommend 'Octave' platform to execute matlab code '.m' 
 
-##### Step 3
+#### Step 3
 ```shell
 # finally, you should execute preprocess.py
 python preprocess.py
