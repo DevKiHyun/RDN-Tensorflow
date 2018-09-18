@@ -24,9 +24,10 @@ I implement a tensorflow model for ["Residual Dense Network for Image Super-Reso
 
 ## How to use
 #### You can download a pre-processed training set [here](https://drive.google.com/file/d/1oqAlnACfGO8wkhqHJSuSWAnuIxw78POp/view?usp=sharing), then you don't need to follow pre-processing operation.(It is a training set for the 2x scale. I will soon also provide training sets for other scales.)
+#### A pre-processed training set should be in the 'data' directory
 ### Pre-processing
 
-#### You should put the images of the DIV2K dataset into the 'DIV2K_train_HR' directory in data directory.
+#### You should put the images of the DIV2K dataset into the 'DIV2K_train_HR' directory in the 'data' directory.
 #### Input images(Low resolution) should be 48x48 size, so sub-images(High resolution) should be a specific multiple of the input image size. 
 #### ex) Input images: 48x48 / [2x Scale] Sub_images : 96x96 [4x Scale] Sub_images : 196x196
 
