@@ -24,31 +24,25 @@ def modcrop(image, scale):
 
     return image
 
-def get_train_set():
+def get_train_set(scale=2):
     '''
     PATH of TRAIN SET(DIV2K-20 extracts)
     '''
-    train_labels_path = '{}/data/train_DIV2K_label/*.npy'.format(main_data_path)
-    train_inputs_2x_path = '{}/data/train_DIV2K_input_2x/*.npy'.format(main_data_path)
-    train_inputs_3x_path = '{}/data/train_DIV2K_input_3x/*.npy'.format(main_data_path)
-    train_inputs_4x_path = '{}/data/train_DIV2K_input_4x/*.npy'.format(main_data_path)
+    train_labels_path = '{}/data/train_DIV2K_label_{}x/*.npy'.format(main_data_path, scale)
+    train_inputs_path = '{}/data/train_DIV2K_input_{}x/*.npy'.format(main_data_path, scale)
 
     '''
-    TRAIN SET(DIV2K-20 extracts) and shuffle
+    TRAIN SET(N-Sampling) and shuffle
     '''
-    train_inputs_2x_batch = ImageBatch(train_inputs_2x_path, training_ratio=training_ratio, on_sort=True, ext='npy')
-    train_inputs_3x_batch = ImageBatch(train_inputs_3x_path, training_ratio=training_ratio, on_sort=True, ext='npy')
-    train_inputs_4x_batch = ImageBatch(train_inputs_4x_path, training_ratio=training_ratio, on_sort=True, ext='npy')
+    train_inputs_batch = ImageBatch(train_inputs_path, training_ratio=training_ratio, on_sort=True, ext='npy')
     train_labels_batch = ImageBatch(train_labels_path, training_ratio=training_ratio, on_sort=True, ext='npy')
 
     shuffle_indicese = list(range(train_labels_batch.N_TRAIN_DATA))
     np.random.shuffle(shuffle_indicese)
-    train_inputs_2x_batch.train_shuffle(shuffle_indicese)
-    train_inputs_3x_batch.train_shuffle(shuffle_indicese)
-    train_inputs_4x_batch.train_shuffle(shuffle_indicese)
+    train_inputs_batch.train_shuffle(shuffle_indicese)
     train_labels_batch.train_shuffle(shuffle_indicese)
 
-    return train_inputs_2x_batch, train_inputs_3x_batch, train_inputs_4x_batch, train_labels_batch
+    return train_inputs_batch, train_labels_batch
 
 def get_test_set(batch_size, scale=2):
     '''
@@ -78,8 +72,7 @@ def get_test_set(batch_size, scale=2):
 
 def training(RDN, config):
     # Get training set and Test set
-    train_inputs_2x_batch, train_inputs_3x_batch, train_inputs_4x_batch, train_labels_batch = get_train_set()
-    #train_inputs_dict = {2:train_inputs_2x_batch, 3:train_inputs_3x_batch, 4:train_inputs_4x_batch}
+    train_inputs_batch, train_labels_batch = get_train_set(config.scale)
     test_labels, test_bicubic_inputs, test_rdn_inputs = get_test_set(batch_size=config.test_batch_size, scale=config.scale)
 
     '''
@@ -100,7 +93,6 @@ def training(RDN, config):
     total_batch = n_data // batch_size if n_data % batch_size == 0 else (n_data // batch_size) + 1
     total_iteration = training_epoch * total_batch
     n_iteration = 0
-    #scales = [2,3,4]
 
     # Build Network
     RDN.neuralnet()
@@ -126,12 +118,12 @@ def training(RDN, config):
     for epoch in range(training_epoch):
         avg_cost = 0
         avg_rdn_psnr = 0
-        test_psnr = [0 for j in range(config.test_batch_size)]
+        test_psnr = [0 for i in range(config.test_batch_size)]
         for i in range(total_batch):
             start = time.time()
 
             batch_y = train_labels_batch.next_batch(batch_size, num_thread=8)
-            batch_x = train_inputs_2x_batch.next_batch(batch_size=batch_size, num_thread=8)
+            batch_x = train_inputs_batch.next_batch(batch_size=batch_size, num_thread=8)
 
             summaries, _cost, _ = sess.run([RDN.summaries, RDN.cost, RDN.optimizer],
                                            feed_dict={RDN.X: batch_x, RDN.Y: batch_y})
@@ -164,19 +156,16 @@ def training(RDN, config):
 
             print("=============================================")
             print('Epoch:', '%04d' % (epoch + 1), 'cost =', '{:.9f}'.format(avg_cost),
-                  '\nY_Ch AVG PSNR:: Bicubic: {:.9f} || RDN: {:.9f}'.format(avg_bicubic_psnr, avg_rdn_psnr))
-
+                  '\nRGB AVG PSNR:: Bicubic: {:.9f} || RDN: {:.9f}'.format(avg_bicubic_psnr, avg_rdn_psnr))
             print("Evaluate RDN performance")
-            for i in range(config.batch_size):
-                print("Test image {} psnr: ".format(i), test_psnr[i])
+            for j in range(config.test_batch_size):
+                print("Test image {} psnr: {}".format(j, test_psnr[j]))
             print("=============================================")
 
         shuffle_indicese = list(range(train_labels_batch.N_TRAIN_DATA))
         np.random.shuffle(shuffle_indicese)
-        train_inputs_2x_batch.train_shuffle(shuffle_indicese)
+        train_inputs_batch.train_shuffle(shuffle_indicese)
         train_labels_batch.train_shuffle(shuffle_indicese)
-        #train_inputs_3x_batch.train_shuffle(shuffle_indicese)
-        #train_inputs_4x_batch.train_shuffle(shuffle_indicese)
 
     print("학습 완료!")
     save_path = '{}/model/RDN.ckpt'.format(os.path.abspath('.'))
