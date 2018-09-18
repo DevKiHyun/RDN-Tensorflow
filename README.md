@@ -25,7 +25,10 @@ We implement a tensorflow model for ["Residual Dense Network for Image Super-Res
 ## How to use
 ### Pre-processing
 
-#### you should put images of the DIV2K dataset into the 'DIV2K_train_HR' directory in data directory.
+#### you should put the images of the DIV2K dataset into the 'DIV2K_train_HR' directory in data directory.
+#### Input images(Low resolution) should be 48x48 size, so sub-images(High resolution) should be a specific multiple of the input image size. 
+#### ex) Input images: 48x48 / [2x Scale] Sub_images : 96x96 [4x Scale] Sub_images : 196x196
+
 ##### Step 1
 ```shell
 # Sampling N images in 'DIV2K_train_HR' directory
