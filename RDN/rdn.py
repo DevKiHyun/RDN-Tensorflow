@@ -50,22 +50,18 @@ class RDN:
 
         return bias
 
-    def _residual_block(self, inputs, filters_size, name=None, activation=None):
-        after_channel = filters_size[-1]
-        layer_list = []
-        layer_list.append(inputs)
+    def _residual_block(self, inputs, n_channel, name=None, activation=None):
+        local_conv = inputs
 
-        local_conv = self._conv2d_layer(inputs, filters_size=filters_size, add_bias=True,
-                                        name=name+"local_conv_0", activation=activation)
-        layer_list.append(local_conv)
         for i in range(self.n_local_layers):
-            local_conv = self._conv2d_layer(local_conv, filters_size=filters_size, add_bias=True,
+            local_conv_channel = local_conv.get_shape().as_list()[-1]
+            tmp_local_conv = self._conv2d_layer(local_conv, filters_size=[3,3,local_conv_channel, n_channel], add_bias=True,
                                         name=name+"local_conv_{}".format(i+1), activation=activation)
-            layer_list.append(local_conv)
+            local_conv = tf.concat([local_conv, tmp_local_conv], axis=3)
 
-        local_fusion = tf.concat(layer_list, axis=3)
-        local_after_channel = local_fusion.get_shape().as_list()[-1]
-        block_output = self._conv2d_layer(local_fusion, filters_size=[1,1,local_after_channel,after_channel], name=name+"fusion")
+        local_after_channel = local_conv.get_shape().as_list()[-1]
+        local_fusion = self._conv2d_layer(local_conv, filters_size=[1,1,local_after_channel,n_channel], name=name+"fusion")
+        block_output = local_fusion + inputs
 
         return block_output
 
@@ -94,17 +90,18 @@ class RDN:
         Residual Dense Block
         '''
         for i in range(self.n_global_layers):
-            conv = self._residual_block(conv, filters_size=[3,3,64,64],
+            conv = self._residual_block(conv, n_channel=64,
                                         name="conv_residual_{}".format(i), activation=tf.nn.relu)
             global_layer_list.append(conv)
 
         '''
         Dense Feature Fusion
         '''
-        global_fusion = tf.concat(global_layer_list, axis=3)
-        global_after_channel = global_fusion.get_shape().as_list()[-1]
-        conv = self._conv2d_layer(global_fusion, filters_size=[1,1,global_after_channel, 64], name="global_fusion")
-        conv = self._conv2d_layer(conv, filters_size=[3,3,64,64], name="global_conv")
+        global_concat = tf.concat(global_layer_list, axis=3)
+        global_after_channel = global_concat.get_shape().as_list()[-1]
+        global_fusion = self._conv2d_layer(global_concat, filters_size=[1,1,global_after_channel, 64], name="global_fusion")
+
+        conv = self._conv2d_layer(global_fusion, filters_size=[3,3,64,64], name="global_conv")
         conv = tf.add(conv, conv_F_1)
 
         '''
