@@ -17,7 +17,8 @@ I implement a tensorflow model for ["Residual Dense Network for Image Super-Reso
 - main.py : Execute train.py and pass the default value.
 - vdsr.py : RDN model definition.
 - train.py : Train the RDN model and represent the test set performance.
-- demo.py : Test the RDN model and show result images and psnr.
+- test.py : Test the RDN model and show result images and psnr.
+- demo.py : Upscale a input image by RDN model.
 - util.py : Utility functions for this project.
 - log.txt : The log of training process.
 - model : The save files of the trained RDN.
@@ -64,12 +65,21 @@ python main.py --training_epoch 80 --scale 3 --n_global_layers 12 --n_local_laye
 
 ### Test
 ```shell
-python demo.py
+python test.py
 
 # Default args: image_index = 1, scale = 2, coordinate = [50,50], interval = 30 
 # You can change args: image_index = 13, scale = 4, coorindate [100,100], interval = 50
 
-python demo.py --image_index 13 --scale 4 --coordinate [100,100] --interval 50
+python test.py --image_index 13 --scale 4 --coordinate [100,100] --interval 50
+```
+### Demo
+```shell
+python demo.py
+
+# Default args: scale = 2
+# You can change argg : scale = 4
+
+python demo.py --scale 4
 ```
 
 ## Result
