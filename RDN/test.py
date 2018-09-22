@@ -1,5 +1,4 @@
 import argparse
-import sys
 import tensorflow as tf
 import numpy as np
 import cv2
@@ -25,7 +24,6 @@ def modcrop(image, scale):
 
 def bicubic_sr(input, scale):
     height, width, n_channel = input.shape
-    input = im2double(input.astype(np.uint8))
 
     bicubic_output =  np.clip(cv2.resize(
                         cv2.resize(input.copy(), None, fx=1.0 / scale, fy=1.0 / scale, interpolation=cv2.INTER_CUBIC),
@@ -34,9 +32,7 @@ def bicubic_sr(input, scale):
     return bicubic_output
 
 def RDN_sr(sess, RDN, input, scale):
-    input = im2double(input.astype(np.uint8))
     low_rs = np.clip(cv2.resize(input.copy(), None, fx=1.0 / scale, fy=1.0 / scale, interpolation=cv2.INTER_CUBIC), 0, 1)
-
     RDN_output = sess.run(RDN.output, feed_dict={RDN.X:np.expand_dims(low_rs, axis=0)})[0]
     RDN_output = np.clip(RDN_output*255, 0, 255)
 
@@ -47,7 +43,7 @@ if __name__ == '__main__':
     parser.add_argument('--n_global_layers', type=int, default=16, help='-')
     parser.add_argument('--n_local_layers', type=int, default=6, help='-')
     parser.add_argument('--n_channel', type=int, default=3, help='-')
-    parser.add_argument('--batch_size', type=int, default=5, help='-')
+    parser.add_argument('--batch_size', type=int, default=100, help='-')
     parser.add_argument('--image_index', type=int, default=1, help='-')
     parser.add_argument('--scale', type=int, default=2, help='-')
     parser.add_argument('--coordinate', type=int, default=[50, 50], help='-')
@@ -64,7 +60,9 @@ if __name__ == '__main__':
     RDN = rdn.RDN(args)
     RDN.neuralnet()
 
-    sess = tf.Session()
+    tf_config = tf.ConfigProto()
+    tf_config.gpu_options.per_process_gpu_memory_fraction = 0.8
+    sess = tf.Session(config=tf_config)
     saver = tf.train.Saver()
     saver.restore(sess, './model/RDN.ckpt')
 
@@ -75,9 +73,15 @@ if __name__ == '__main__':
     interval = args.interval
 
     label = modcrop(labels[index], scale=scale)
-    bicubic_output = bicubic_sr(label.copy(), scale=scale)
-    RDN_output = RDN_sr(sess, RDN, label.copy(), scale=scale)
+    input = im2double(label.copy().astype(np.uint8))
 
+    bicubic_output = bicubic_sr(input.copy(), scale=scale)
+    RDN_output = RDN_sr(sess, RDN, input.copy(), scale=scale)
+
+    low_rs = np.clip(cv2.resize(input.copy(), None, fx=1.0 / scale, fy=1.0 / scale, interpolation=cv2.INTER_CUBIC), 0,
+                     1)*255
+
+    cv2.imwrite('{}/{}.png'.format(result_save_path, 'low'), low_rs)
     cv2.imwrite('{}/{}.png'.format(result_save_path, 'original'), label)
     cv2.imwrite('{}/{}.png'.format(result_save_path, 'bicubic'), bicubic_output)
     cv2.imwrite('{}/{}.png'.format(result_save_path, 'RDN'), RDN_output)
@@ -97,6 +101,3 @@ if __name__ == '__main__':
 
     #display_list = np.array([original_list, zoom_list)
     #display(display_list,  figsize = (5,5), axis_off=True, size_equal=True, gridspec=(0,0), zoom_coordinate=(150, 190, 100,260))
-
-
-
