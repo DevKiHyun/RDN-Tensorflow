@@ -41,7 +41,7 @@ if __name__ == '__main__':
     print("Please enter the path of the image's directory. Ex) '/data/test_images' ")
     path = input("Enter the directory path: ")
     print("Please enter the name of images. This version 'only' read '.png', 'jpg' extention and 'RGB' image! Ex) '0.png'")
-    print("If you want to read all images in the directory, enter '*.png'.")
+    print("If you want to read all images in the directory, enter '*.png' or '*.jpg'.")
     name = input("Enter the image name: ")
 
     image_path = path + '/' + name
