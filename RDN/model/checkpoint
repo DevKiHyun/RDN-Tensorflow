@@ -1,2 +1,0 @@
-model_checkpoint_path: "/home/nkh/tensorflow/RDN/model_2/RDN.ckpt"
-all_model_checkpoint_paths: "/home/nkh/tensorflow/RDN/model_2/RDN.ckpt"
