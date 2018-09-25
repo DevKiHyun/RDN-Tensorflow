@@ -53,7 +53,7 @@ python sampling.py --n-extract 50
 # Finally, you should execute preprocess.py
 python preprocess.py
 ```
-
+### If you do not want to train, skip the training step and unzip [model.zip](https://github.com/DevKiHyun/RDN-Tensorflow/tree/master/RDN/model) into the model directory.
 ### Training
 ```shell
 python main.py
