@@ -77,7 +77,7 @@ python test.py --image_index 13 --scale 4 --coordinate [100,100] --interval 50
 python demo.py
 
 # Default args: scale = 2
-# You can change argg : scale = 4
+# You can change arg : scale = 4
 
 python demo.py --scale 4
 ```
