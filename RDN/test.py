@@ -91,7 +91,7 @@ if __name__ == '__main__':
 
     #input_list = [input, input[x_start:x_start+interval,  y_start:y_start+interval, :]]
     #bicubic_list = [bicubic_output, bicubic_output[x_start:x_start+interval,  y_start:y_start+interval, :]]
-    #VDSR_list = [VDSR_output, VDSR_output[x_start:x_start+interval,  y_start:y_start+interval, :]]
+    #RDN_list = [RDN_output, RDN_output[x_start:x_start+interval,  y_start:y_start+interval, :]]
 
     original_list = np.array([label, bicubic_output, RDN_output])
 
