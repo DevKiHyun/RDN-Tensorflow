@@ -20,7 +20,6 @@ I implement a tensorflow model for ["Residual Dense Network for Image Super-Reso
 - test.py : Test the RDN model and show result images and psnr.
 - demo.py : Upscale a input image by RDN model.
 - util.py : Utility functions for this project.
-- log.txt : The log of training process.
 - model : The save files of the trained RDN.
 
 ## How to use
@@ -77,7 +76,7 @@ python test.py --image_index 13 --scale 4 --coordinate [100,100] --interval 50
 python demo.py
 
 # Default args: scale = 2
-# You can change arg : scale = 4
+# You can change arg: scale = 4
 
 python demo.py --scale 4
 ```
