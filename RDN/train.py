@@ -124,7 +124,7 @@ def training(RDN, config):
 
         if epoch % 2 == 0:
             '''
-           Evaluate RDN performance (Y Channel average psnr)
+           Evaluate RDN performance (RGB Channel average psnr)
            '''
             for index in range(config.test_batch_size):
                 label = test_labels[index].copy()
