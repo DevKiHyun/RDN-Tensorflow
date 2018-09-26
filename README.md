@@ -27,14 +27,14 @@ I implement a tensorflow model for ["Residual Dense Network for Image Super-Reso
 #### A pre-processed training set should be in the 'data' directory
 ### Pre-processing
 
-#### You should put the images of the DIV2K dataset into the 'DIV2K_train_HR' directory in the 'data' directory.
+#### You should put the images of the DIV2K dataset into the 'DIV2K_HR' directory in the 'data' directory.
 #### Input images(Low resolution) should be 48x48 size, so sub-images(High resolution) should be a specific multiple of the input image size. 
 #### ex) Input images: 48x48 / [2x Scale] Sub_images : 96x96 [4x Scale] Sub_images : 196x196
 
 #### Step 1
 ##### [Recommend] 2x scale : 25 images sampling, 3x scale : 35 images sampling, 4x scale: 50 images sampling 
 ```shell
-# Sampling N images in 'DIV2K_train_HR' directory
+# Sampling N images into 'DIV2K_train_HR' directory
 python sampling.py
 
 # Default args: n_extract = 25 for 2x scale
