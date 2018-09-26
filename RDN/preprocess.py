@@ -6,28 +6,28 @@ import os
 train_input_2x_path = './data/train_DIV2K_input_2x/{}'
 train_input_3x_path = './data/train_DIV2K_input_3x/{}'
 train_input_4x_path = './data/train_DIV2K_input_4x/{}'
-train_label_path = './data/train_DIV2K_label/{}'
+train_label_2x_path = './data/train_DIV2K_label_2x/{}'
+train_label_3x_path = './data/train_DIV2K_label_2x/{}'
+train_label_4x_path = './data/train_DIV2K_label_2x/{}'
 
-train_path = [train_input_2x_path, train_input_3x_path, train_input_4x_path, train_label_path]
+train_path = [train_input_2x_path, train_input_3x_path, train_input_4x_path, train_label_2x_path, train_label_3x_path, train_label_4x_path]
 test_set = ['data/Set5']
 test_path = []
 for elem in test_set:
-    y_ch_path = './' + elem + '/y_ch/{}'
+    y_ch_path = './' + elem + '/ground_truth/{}'
     test_path.append(y_ch_path)
-    y_ch_bicubic_2x_path = './' + elem + '/y_ch_bicubic_2x/{}'
+    y_ch_bicubic_2x_path = './' + elem + '/blur_2x/{}'
     test_path.append(y_ch_bicubic_2x_path)
-    y_ch_bicubic_3x_path = './' + elem + '/y_ch_bicubic_3x/{}'
+    y_ch_bicubic_3x_path = './' + elem + '/blur_3x/{}'
     test_path.append(y_ch_bicubic_3x_path)
-    y_ch_bicubic_4x_path = './' + elem + '/y_ch_bicubic_4x/{}'
+    y_ch_bicubic_4x_path = './' + elem + '/blur_4x/{}'
     test_path.append(y_ch_bicubic_4x_path)
-    y_ch_rdn_2x_path = './' + elem + '/y_ch_rdn_2x/{}'
+    y_ch_rdn_2x_path = './' + elem + '/low_rs_2x/{}'
     test_path.append(y_ch_rdn_2x_path)
-    y_ch_rdn_3x_path = './' + elem + '/y_ch_rdn_3x/{}'
+    y_ch_rdn_3x_path = './' + elem + '/low_rs_3x/{}'
     test_path.append(y_ch_rdn_3x_path)
-    y_ch_rdn_4x_path = './' + elem + '/y_ch_rdn_4x/{}'
+    y_ch_rdn_4x_path = './' + elem + '/low_rs_4x/{}'
     test_path.append(y_ch_rdn_4x_path)
-    color_path = './'+elem+'/color/{}'
-    test_path.append(color_path)
 
 for path in train_path:
     list = glob.glob(path.format('*.mat'))
