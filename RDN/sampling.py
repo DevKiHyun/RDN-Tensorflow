@@ -6,7 +6,7 @@ import os
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--n_extract', type=int, default=30, help='-')
+    parser.add_argument('--n_extract', type=int, default=25, help='-')
     args, unknown = parser.parse_known_args()
 
     n_extract = args.n_extract
