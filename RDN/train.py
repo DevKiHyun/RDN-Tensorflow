@@ -16,21 +16,12 @@ def im2double(image):
     info = np.iinfo(image.dtype) # Get the data type of the input image
     return image.astype(np.float32) / info.max # Divide all values by the largest possible value in the datatype
 
-def modcrop(image, scale):
-    height, width, _ = image.shape
-    height = height - (height % scale)
-    width = width - (width % scale)
-    image = image[0:height, 0:width, :]
-
-    return image
-
 def get_train_set(scale=2):
     '''
     PATH of TRAIN SET(DIV2K-20 extracts)
     '''
     train_labels_path = '{}/data/train_DIV2K_label_{}x/*.npy'.format(main_data_path, scale)
     train_inputs_path = '{}/data/train_DIV2K_input_{}x/*.npy'.format(main_data_path, scale)
-
     '''
     TRAIN SET(N-Sampling) and shuffle
     '''
@@ -48,25 +39,19 @@ def get_test_set(batch_size, scale=2):
     '''
     PATH of TEST SET(SET5)
     '''
-    test_labels_path = '{}/data/Set5/HR/*.png'.format(main_data_path)
-    test_bicubic_inputs_path = '{}/data/Set5/bicubic_{}x/*.png'.format(main_data_path, scale)
+    test_labels_path = '{}/data/Set5/ground_truth/*.npy'.format(main_data_path)
+    test_bicubic_inputs_path = '{}/data/Set5/blur_{}x/*.npy'.format(main_data_path, scale)
+    test_rdn_inputs_path = '{}/data/Set5/low_rs_{}x/*.npy'.format(main_data_path, scale)
     '''
     TEST SET(SET5)
     '''
-    test_labels_batch = ImageBatch(test_labels_path, training_ratio=training_ratio, on_sort=True, ext='png')
-    test_bicubic_inputs_batch = ImageBatch(test_bicubic_inputs_path, training_ratio=training_ratio, on_sort=True, ext='png')
+    test_labels_batch = ImageBatch(test_labels_path, training_ratio=training_ratio, on_sort=True, ext='npy')
+    test_bicubic_inputs_batch = ImageBatch(test_bicubic_inputs_path, training_ratio=training_ratio, on_sort=True, ext='npy')
+    test_rdn_inputs_batch = ImageBatch(test_rdn_inputs_path, training_ratio=training_ratio, on_sort=True, ext='npy')
 
     test_labels = test_labels_batch.next_batch(batch_size=batch_size)
     test_bicubic_inputs = test_bicubic_inputs_batch.next_batch(batch_size=batch_size)
-    test_rdn_inputs = []
-
-    for i in range(batch_size):
-        test_labels[i] = modcrop(im2double(test_labels[i].astype(np.uint8)), scale=scale)
-        test_bicubic_inputs[i] = modcrop(im2double(test_bicubic_inputs[i].astype(np.uint8)), scale=scale)
-
-        # low resolution(for scale) test set for RDN model
-        test_low_label = np.clip(cv2.resize(test_labels[i].copy(), None, fx=1.0 / scale, fy=1.0 / scale, interpolation=cv2.INTER_CUBIC), 0, 1)
-        test_rdn_inputs.append(test_low_label)
+    test_rdn_inputs = test_rdn_inputs_batch.next_batch(batch_size=batch_size)
 
     return test_labels, test_bicubic_inputs, test_rdn_inputs
 
@@ -113,7 +98,7 @@ def training(RDN, config):
 
     print("Total the number of Data : " + str(n_data))
     print("Total Step per 1 Epoch: {}".format(total_batch))
-    print("The number of Iteration: {}".format(training_epoch * total_batch))
+    print("The number of Iteration: {}".format(total_iteration))
 
     for epoch in range(training_epoch):
         avg_cost = 0
