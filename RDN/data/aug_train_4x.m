@@ -1,13 +1,9 @@
 dataDir = 'DIV2K_train_HR\';
 
-mkdir('train_DIV2K_input_2x');
-mkdir('train_DIV2K_input_3x');
 mkdir('train_DIV2K_input_4x');
-mkdir('train_DIV2K_label');
+mkdir('train_DIV2K_label_4x');
 
-folder_label = fullfile('train_DIV2K_label');
-folder_input_2x = fullfile('train_DIV2K_input_2x');
-folder_input_3x = fullfile('train_DIV2K_input_3x');
+folder_label = fullfile('train_DIV2K_label_4x');
 folder_input_4x = fullfile('train_DIV2K_input_4x');
 
 count_input = 0;
@@ -49,17 +45,7 @@ for f_iter = 1:numel(f_lst)
             patch = patch_raw;
             patch_name = sprintf('%s/%d',folder_label, count_label)
             save(sprintf('%s.mat', patch_name), 'patch', '-v6');
-            
-            patch_2x = imresize(patch_raw,1/2,'bicubic');
-            patch = patch_2x;
-            patch_name = sprintf('%s/%d',folder_input_2x, count_input)
-            save(sprintf('%s.mat', patch_name), 'patch', '-v6');
-            
-            patch_3x = imresize(patch_raw,1/3,'bicubic');
-            patch = patch_3x;
-            patch_name = sprintf('%s/%d',folder_input_3x, count_input)
-            save(sprintf('%s.mat', patch_name), 'patch', '-v6');
-            
+           
             patch_4x = imresize(patch_raw,1/4,'bicubic');
             patch = patch_4x;
             patch_name = sprintf('%s/%d',folder_input_4x, count_input)
@@ -74,16 +60,6 @@ for f_iter = 1:numel(f_lst)
             patch_name = sprintf('%s/%d',folder_label, count_label)
             save(sprintf('%s.mat', patch_name), 'patch', '-v6');
 
-            patch_2x = imresize(patch_raw,1/2,'bicubic');
-            patch = patch_2x;
-            patch_name = sprintf('%s/%d',folder_input_2x, count_input)
-            save(sprintf('%s.mat', patch_name), 'patch', '-v6');
-            
-            patch_3x = imresize(patch_raw,1/3,'bicubic');
-            patch = patch_3x;
-            patch_name = sprintf('%s/%d',folder_input_3x, count_input)
-            save(sprintf('%s.mat', patch_name), 'patch', '-v6');
-            
             patch_4x = imresize(patch_raw,1/4,'bicubic');
             patch = patch_4x;
             patch_name = sprintf('%s/%d',folder_input_4x, count_input)
@@ -98,16 +74,6 @@ for f_iter = 1:numel(f_lst)
             patch_name = sprintf('%s/%d',folder_label, count_label)
             save(sprintf('%s.mat', patch_name), 'patch', '-v6');
 
-            patch_2x = imresize(patch_raw,1/2,'bicubic');
-            patch = patch_2x;
-            patch_name = sprintf('%s/%d',folder_input_2x, count_input)
-            save(sprintf('%s.mat', patch_name), 'patch', '-v6');
-            
-            patch_3x = imresize(patch_raw,1/3,'bicubic');
-            patch = patch_3x;
-            patch_name = sprintf('%s/%d',folder_input_3x, count_input)
-            save(sprintf('%s.mat', patch_name), 'patch', '-v6');
-            
             patch_4x = imresize(patch_raw,1/4,'bicubic');
             patch = patch_4x;
             patch_name = sprintf('%s/%d',folder_input_4x, count_input)
@@ -122,16 +88,6 @@ for f_iter = 1:numel(f_lst)
             patch_name = sprintf('%s/%d',folder_label, count_label)
             save(sprintf('%s.mat', patch_name), 'patch', '-v6');
 
-            patch_2x = imresize(patch_raw,1/2,'bicubic');
-            patch = patch_2x;
-            patch_name = sprintf('%s/%d',folder_input_2x, count_input)
-            save(sprintf('%s.mat', patch_name), 'patch', '-v6');
-            
-            patch_3x = imresize(patch_raw,1/3,'bicubic');
-            patch = patch_3x;
-            patch_name = sprintf('%s/%d',folder_input_3x, count_input)
-            save(sprintf('%s.mat', patch_name), 'patch', '-v6');
-            
             patch_4x = imresize(patch_raw,1/4,'bicubic');
             patch = patch_4x;
             patch_name = sprintf('%s/%d',folder_input_4x, count_input)
