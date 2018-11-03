@@ -29,8 +29,8 @@ for f_iter = 1:numel(f_lst)
     %img_raw = img_raw(1:height-mod(height,12),1:width-mod(width,12),:);
     %img_size = size(img_raw);
     
-	  patch_size = 48;
-    stride = 48;
+	  patch_size = 196;
+    stride = 196;
     x_size = (img_size(2)-patch_size)/stride+1;
     y_size = (img_size(1)-patch_size)/stride+1;
     
