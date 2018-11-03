@@ -38,10 +38,10 @@ I implement a tensorflow model for ["Residual Dense Network for Image Super-Reso
 python sampling.py
 
 # Default args: n_extract = 25 for 2x scale
-# If 3x scale : n_extract = 35
-python sampling.py --n_extract 35
-# If 4x scale : n_extract = 50
-python sampling.py --n-extract 50
+# If 3x scale : n_extract = 50
+python sampling.py --n_extract 50
+# If 4x scale : n_extract = 100
+python sampling.py --n-extract 100
 ```
 #### Step 2
 ##### You should execute aug_train_'N'x.m and aug_test.m in 'data' directory. If you are training model for 2x scale, you must execute aug_train_2x.m
