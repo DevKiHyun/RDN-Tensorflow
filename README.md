@@ -23,7 +23,7 @@ I implement a tensorflow model for ["Residual Dense Network for Image Super-Reso
 - model : The save files of the trained RDN.
 
 ## How to use
-#### You can download a pre-processed training set [here](https://drive.google.com/file/d/1oqAlnACfGO8wkhqHJSuSWAnuIxw78POp/view?usp=sharing), then you don't need to follow pre-processing operation.(It is a training set for the 2x scale. I will soon also provide training sets for other scales.)
+#### You can download a pre-processed training set - [2x](https://drive.google.com/file/d/1oqAlnACfGO8wkhqHJSuSWAnuIxw78POp/view?usp=sharing), [3x](https://drive.google.com/file/d/1d6VfuULNCrA0wkAKIu0P79w93gqtGvdn/view?usp=sharing), [4x](https://drive.google.com/file/d/1x965w-Jb_EQyrHDfGanQwVsVC3tdGxYB/view?usp=sharing), then you don't need to follow pre-processing operation.
 #### A pre-processed training set should be in the 'data' directory
 ### Pre-processing
 
