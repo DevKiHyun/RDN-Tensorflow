@@ -44,8 +44,18 @@ python sampling.py --n_extract 50
 python sampling.py --n-extract 100
 ```
 #### Step 2
-##### You should execute aug_train_'N'x.m and aug_test.m in 'data' directory. If you are training model for 2x scale, you must execute aug_train_2x.m
-##### Recommend 'Octave' platform to execute matlab code '.m' 
+```shell
+# You should execute aug_train_'N'x.m and aug_test.m in 'data' directory. If you are training model for 2x scale, you must execute aug_train_2x.m
+# Recommend 'Octave' platform to execute matlab code '.m' 
+
+ex)
+aug_train_2x.m
+aug_test_2x.m
+
+aug_train_3x.m
+aug_test_3x.m
+```
+
 
 #### Step 3
 ```shell
